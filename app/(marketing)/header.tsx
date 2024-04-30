@@ -1,6 +1,7 @@
 "use client"
-import { SignIn, SignedIn, UserButton } from "@clerk/clerk-react";
-import { ClerkLoaded, ClerkLoading } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
+import { SignIn, SignInButton, SignedIn, UserButton } from "@clerk/clerk-react";
+import { ClerkLoaded, ClerkLoading, SignedOut } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
 import Image from "next/image";
 
@@ -19,8 +20,14 @@ export default function Header(){
                 </ClerkLoading>
                 <ClerkLoaded>
                     <SignedIn>
-                        <UserButton></UserButton>
+                        <UserButton afterSignOutUrl="/"/>
                     </SignedIn>
+                    <SignedOut>
+                        <SignInButton mode="modal" afterSignInUrl="/learn" afterSignUpUrl="/learn">
+                            <Button variant="ghost" size="lg">Login</Button>
+                        </SignInButton>
+                    </SignedOut>
+                    
                 </ClerkLoaded>
             </div>
         </header>
