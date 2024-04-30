@@ -2,6 +2,8 @@ import { cn } from "@/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
 import SideBarItem from "./sidebar-item"
+import { ClerkLoaded, ClerkLoading, UserButton } from "@clerk/nextjs"
+import { Loader } from "lucide-react"
 type Props = {
     className?: string
 }
@@ -15,8 +17,19 @@ export default function SideBar({ className }: Props) {
                 <h1 className="text-2xl font-exrtabold text-green-600 tracking-wide">Lingo</h1>
                  </div>
             </Link>
-            <div className="flex flex-col gap-y-2 flex-1">
+            <div className="flex flex-col  gap-y-2 flex-1">
                 <SideBarItem label="learn" href="/learn" iconSrc="learn.svg"/>
+                <SideBarItem label="leaderboard" href="/learn" iconSrc="leaderboard.svg"/>
+                <SideBarItem label="quests" href="/learn" iconSrc="quests.svg"/>
+                <SideBarItem label="shop" href="/learn" iconSrc="shop.svg"/>
+            </div>
+            <div className="p-4">
+                <ClerkLoading>
+                    <Loader className="h-5 w-5 text-muted-foreground animate-spin"/>
+                </ClerkLoading>
+                <ClerkLoaded>
+                    <UserButton afterSignOutUrl="/"/>
+                </ClerkLoaded>
             </div>
         </div>
 
