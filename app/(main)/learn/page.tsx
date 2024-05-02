@@ -11,6 +11,7 @@ export default function LearnPage(){
             </StickyWrapper>
             <FeedWarpper>
                 <Header title="Spanish"/>
+                
             </FeedWarpper>
         </div>
     )
