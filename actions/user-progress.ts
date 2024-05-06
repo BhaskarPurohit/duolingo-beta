@@ -4,6 +4,9 @@ import { getCourseById, getUserProgress } from "@/db/queries"
 import { userProgress } from "@/db/schema"
 import { currentUser, auth } from "@clerk/nextjs/server"
 import db from "@/db/drizzle"
+import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
+
 
 export const upsertUserProgress = async(courseId: number)=>{
     const {userId} = await auth()
@@ -19,6 +22,8 @@ export const upsertUserProgress = async(courseId: number)=>{
         throw new Error("course not found")
     }
 
+ 
+
     const existingUserProgress = await getUserProgress()
 
     if(existingUserProgress){
@@ -28,7 +33,20 @@ export const upsertUserProgress = async(courseId: number)=>{
             userImageSrc: user.imageUrl || "/mascot.svg"
 
         })
+        revalidatePath("/courses")
+        revalidatePath("/learn")
+        redirect("/learn")
 
     }
 
+    await db.insert(userProgress).values({
+        userId,
+        activeCourseId: courseId,
+        userName: user.firstName || "User",
+        userImageSrc: user.imageUrl || "/mascot.svg"
+    })
+
+    revalidatePath("/courses")
+    revalidatePath("/learn")
+    redirect("/")
 }

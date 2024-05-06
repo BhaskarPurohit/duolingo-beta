@@ -10,7 +10,7 @@ export default async function LearnPage(){
     const [userProgress] = await Promise.all([userProgressData])
 
     if(!userProgress || !userProgress.activeCourse){
-        redirect("/course")
+        redirect("/courses")
     }
     return(
         <div className="flex flex-row-reverse gap-[48px] px-6">

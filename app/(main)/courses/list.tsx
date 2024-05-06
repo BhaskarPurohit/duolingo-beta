@@ -2,8 +2,10 @@
 
 import { courses, userProgress } from "@/db/schema"
 import Card from "./card"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { startTransition, useTransition } from "react"
+import { upsertUserProgress } from "@/actions/user-progress"
+import { toast } from "sonner"
 
 type Props ={
     courses: typeof courses.$inferSelect[]
@@ -11,6 +13,7 @@ type Props ={
 }
 
 export default function List({courses, activeCourseId}:Props){
+    
     const router = useRouter()
     const [pending, startTransition] = useTransition()
 
@@ -22,7 +25,8 @@ export default function List({courses, activeCourseId}:Props){
         }
 
         startTransition(()=>{
-            
+            upsertUserProgress(id)
+            .catch(()=> toast.error("something webt wrong"))
         })
     }
     return(
@@ -34,8 +38,8 @@ export default function List({courses, activeCourseId}:Props){
                     id= {course.id}
                     title = {course.title}
                     imageSrc = {course.imageSrc}
-                    onclick = {()=>{}}
-                    disabled = {false}
+                    onClick = {onClick}
+                    disabled = {pending}
                     active = {course.id === activeCourseId}
                     
                     />

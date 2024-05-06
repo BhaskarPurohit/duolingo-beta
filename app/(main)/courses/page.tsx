@@ -2,9 +2,10 @@ import { getCourses, getUserProgress } from "@/db/queries"
 import List from "./list"
 // import { courses } from "@/db/schema"
 
+
 const CoursesPage = async()=>{
-    const coursesData = await getCourses()
-    const userProgressData = await getUserProgress()
+    const coursesData =  getCourses()
+    const userProgressData =  getUserProgress()
 
     const [courses, userProgress] =  await Promise.all([
         coursesData,
